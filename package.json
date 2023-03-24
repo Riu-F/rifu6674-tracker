@@ -1,0 +1,11 @@
+{
+  "name": "rifu6674-tracker",
+  "version": "1.0.0",
+  "description": "Web application for tracking.. something (havent decided)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Riu Fukazawa",
+  "license": "ISC"
+}
