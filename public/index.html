@@ -4,12 +4,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Movie Tracking Website</title>
+    <link rel="stylesheet" href="scss/main.scss" />
 </head>
 
 <body>
-    <h1>Hello World</h1>
-    <p>Testing out github and stuff</p>
+
+    <header>
+        <div class="logo">
+          <h2>Flixr</h2>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#">Watchlist</a></li>
+            <li><a href="#">Favourites</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <h1>Log your movies</h1>
+        <form>
+            <label for="film-name">Name of film:</label>
+            <input type="text" id="film-name" name="film-name" placeholder="Enter film name...">
+            <div class="counters">
+              <div>
+                <span id="watched-count">0</span>
+                <label for="watched-count">films</label>
+              </div>
+              <div>
+                <span id="watchlist-count">0</span>
+                <label for="watchlist-count">reviews</label>
+              </div>
+              <div>
+                <span id="favourites-count">0</span>
+                <label for="favourites-count">lists</label>
+              </div>
+            </div>
+          </form>
+
+          <h2>Favourites</h2>
+          <hr>
+          <div class="favourites">
+            <div class="favourite placeholder"></div>
+            <div class="favourite placeholder"></div>
+            <div class="favourite placeholder"></div>
+            <div class="favourite placeholder"></div>
+            <div class="favourite placeholder"></div>
+            <div class="favourite placeholder"></div>
+          </div>
+
+        </section>
+        <section>
+          <h2>Recently Watched</h2>
+          <hr>
+          <div class="recently">
+            <div class="recently-placeholder"></div>
+            <div class="recently-placeholder"></div>
+            <div class="recently-placeholder"></div>
+            <div class="recently-placeholder"></div>
+            <div class="recently-placeholder"></div>
+            <div class="recently-placeholder"></div>
+          </div>
+        </section>
+
+      </main>
+
+
 
     <script src="script.js"></script>
 </body>

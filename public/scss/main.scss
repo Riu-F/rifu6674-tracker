@@ -1,0 +1,116 @@
+body {
+    margin: 0 10rem;
+  }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    
+    .logo {
+      font-size: 2em;
+      font-weight: bold;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      
+      li + li {
+        margin-left: 20px;
+      }
+      
+      a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  
+  form {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    
+    label {
+      font-size: 1.2em;
+      margin-right: 10px;
+    }
+    
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1.2em;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      flex: 1;
+      
+      &:focus {
+        border-color: #333;
+        outline: none;
+      }
+      
+      &::placeholder {
+        color: #999;
+      }
+    }
+    
+    .counters {
+      display: flex;
+      margin-left: 10px;
+      
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 10px;
+        
+        span {
+          font-size: 2em;
+          font-weight: bold;
+        }
+        
+        label {
+          font-size: 1.2em;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+  
+  .favourites {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    .favourite {
+      &.placeholder {
+        background-color: #ccc;
+        width: 100%; // change to 100% to span entire grid cell
+        height: 0;
+        padding-bottom: 150%;
+      }
+    }
+  }
+
+  .recently {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  .recently-placeholder {
+    background-color: #ccc;
+    width: 100%; // change to 100% to span entire grid cell
+    height: 0;
+    padding-bottom: 150%;
+    margin-bottom: 1rem; // add some spacing between the rectangles
+  }
+}
+
