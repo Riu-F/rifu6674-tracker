@@ -1,7 +1,7 @@
 body {
     margin: 0 10rem;
   }
-
+  
 header {
     display: flex;
     justify-content: space-between;
@@ -102,15 +102,16 @@ header {
   }
 
   .recently {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
-  .recently-placeholder {
-    background-color: #ccc;
-    width: 100%; // change to 100% to span entire grid cell
-    height: 0;
-    padding-bottom: 150%;
-    margin-bottom: 1rem; // add some spacing between the rectangles
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  
+    // Style the movie images within the grid
+    img {
+      width: 100%;
+      height: 100;
+      padding-bottom: calc(2 / 3 * 100%); // Set the aspect ratio to 2:3
+      object-fit: cover; // Cut off any excess and maintain aspect ratio
+    }
   }
-}
-
+  
