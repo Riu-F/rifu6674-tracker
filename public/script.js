@@ -11,14 +11,37 @@ const movieInput = document.getElementById('film-name');
 // Get the movies container
 const moviesContainer = document.getElementById('moviesContainer');
 
+// Get the popup poster element
+const popupPoster = document.getElementById('popupPoster');
+// Get the popup box elements
+const popupTitle = document.getElementById('popupTitle');
+const popupYear = document.getElementById('popupYear');
+const popupDescription = document.getElementById('popupDescription');
+
 // Add event listener for Enter key press or form submission
 movieInput.addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
     event.preventDefault(); // Prevent form submission
+    movieInput.value = ''; // Clear the input field
 
     const movieName = movieInput.value.trim(); // Get the trimmed movie name
 
     if (movieName !== '') {
+      // Match the entered movie name with the movies from the database
+      const matchedMovies = moviesData.filter(movie => movie.title.toLowerCase().includes(movieName.toLowerCase()));
+
+      if (matchedMovies.length > 0) {
+        // Get the first matched movie
+        const movie = matchedMovies[0];
+        // Update the image, title, release year, and description
+        popupPoster.src = movie.thumbnail;
+        popupTitle.textContent = movie.title;
+        popupYear.textContent = movie.year;
+        popupDescription.textContent = movie.extract;
+
+      }
+
+            /*
       movieNames.push(movieName); // Add movie name to the array
       movieInput.value = ''; // Clear the input field
       console.log(movieNames); // Display the array in the console
@@ -30,6 +53,7 @@ movieInput.addEventListener('keypress', function(event) {
       movieNames.forEach((enteredMovie) => {
         // Match the entered movie name with the movies from the database
         const matchedMovies = moviesData.filter(movie => movie.title.toLowerCase().includes(enteredMovie.toLowerCase()));
+
         matchedMovies.forEach((movie) => {
           const img = document.createElement('img');
           img.src = movie.thumbnail;
@@ -37,6 +61,8 @@ movieInput.addEventListener('keypress', function(event) {
           moviesContainer.appendChild(img);
         });
       });
+      */
+
     }
   }
 });

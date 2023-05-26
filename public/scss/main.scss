@@ -114,4 +114,32 @@ header {
       object-fit: cover; // Cut off any excess and maintain aspect ratio
     }
   }
+
+  #popupBox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%; /* Set the width to occupy 1/3 of the page horizontally */
+    height: 400px; /* Set the desired height */
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+    img {
+      margin-right: 20px;
+    }
+
+    .content {
+      flex: 1;
+    }
+
+    .save {
+      text-align: right;
+    }
+  }
   
