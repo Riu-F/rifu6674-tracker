@@ -28,6 +28,9 @@ movieInput.addEventListener('keypress', function(event) {
       // Check if the movie is already stored in movieData
       const existingMovieIndex = findMovieIndex(movieName);
 
+      updateWatchedButton(movieName) // check & change the background colour to indicate if watched already
+      updateFavoriteButton(movieName)
+
       if (existingMovieIndex !== -1) {
         console.log("already found!")
         // Movie already exists in movieData, use the existing data
@@ -58,7 +61,41 @@ movieInput.addEventListener('keypress', function(event) {
 
 // Add event listener for the watched button click event
 watchedButton.addEventListener('click', function() {
-  storeMovieData(); // Call the function to store the movie data
+  const movieTitle = popupTitle.textContent;
+  const movieIndex = findMovieIndex(movieTitle); // when user presses "watched" button
+  if (movieIndex !== -1) { // check if movie exists in my array
+    const movie = movieWatchedArray[movieIndex];
+    if (movie.watched == true) { // if it does. they hit watch again, so change to havent watched
+      movie.watched = false 
+      updateWatchedButton(movieTitle) // checks & changes background "watched" button colour
+    } else {
+      movie.watched = true
+      updateWatchedButton(movieTitle) // checks & changes background "watched" button colour
+    }
+  } else {
+    storeMovieData(); // If movie not found in user database, call the function to store the movie data
+    updateWatchedButton(movieTitle) // checks & changes background "watched" button colour
+  }
+})
+
+const favoriteButton = document.getElementById('favorite'); // Get the "favorite" button element
+favoriteButton.addEventListener('click', function() {
+  console.log("clicked");
+  const movieTitle = popupTitle.textContent;
+  const movieIndex = findMovieIndex(movieTitle);
+  if (movieIndex !== -1) { // check if movie exists in my array
+    const movie = movieWatchedArray[movieIndex];
+    if (movie.favorited === true) {
+      movie.favorited = false
+      updateFavoriteButton(movieTitle)
+    } else {
+      movie.favorited = true
+      updateFavoriteButton(movieTitle)
+    }
+  } else {
+    storeMovieData();
+    updateFavoriteButton(movieTitle)
+  }
 });
 
 function storeMovieData() { // for this site, this could be in the search event listener. But i had planned to add a watchlater feild ect where users could pressed watched. 
@@ -68,7 +105,7 @@ function storeMovieData() { // for this site, this could be in the search event 
   const movieDescription = popupDescription.textContent;
   const movieImage = popupPoster.src;
 
-  // Check if the movie already exists in movieWatchedArray
+  // Should be redundant but just in case checks if the movie already exists in movieWatchedArray
   const existingMovieIndex = findMovieIndex(movieTitle.toLowerCase());
   if (existingMovieIndex !== -1) {
     // Movie already exists, do not add it again
@@ -99,7 +136,7 @@ function storeMovieData() { // for this site, this could be in the search event 
 function displayWatched() {
   moviesContainer.innerHTML = ''; // Clear existing movies container
 
-  // Iterate over movieWatchedArray and create img elements for each movie
+  // Iterate over movieWatchedArray and create img elements for each movie. ISSUE: displays movies with "watched: false" 
   movieWatchedArray.forEach((movie) => {
     const img = document.createElement('img');
     img.src = movie.poster;
@@ -116,6 +153,7 @@ function generateUniqueID() {
 
 // Function to find if a movie has already been watched and thus exists in local array. Prevents double-ups.
 // Plus returns its index so i can display the user generated data
+// Plus changes watched button to purple if found
 function findMovieIndex(movieTitle) {
   for (let i = 0; i < movieWatchedArray.length; i++) {
     if (movieWatchedArray[i].title.toLowerCase() === movieTitle.toLowerCase()) {
@@ -123,6 +161,35 @@ function findMovieIndex(movieTitle) {
     }
   }
   return -1; // Return -1 if no match is found
+}
+
+// changes colour of button to purple/grey depending on if watched. checks each time run. Needs to be called mutiple times, eg when searched/watched clicked... so needs to be its own function
+function updateWatchedButton(movieTitle) {
+  const movieIndex = findMovieIndex(movieTitle);
+  if (movieIndex !== -1) {
+    const movie = movieWatchedArray[movieIndex];
+    if (movie.watched == true) {
+      watchedButton.style.backgroundColor = 'rgb(172, 5, 255)'; // Purple color for watched movie
+    } else {
+      watchedButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color for unwatched movie
+    }
+  } else {
+    watchedButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color if movie is not found
+  }
+}
+
+function updateFavoriteButton(movieTitle) {
+  const movieIndex = findMovieIndex(movieTitle);
+  if (movieIndex !== -1) {
+    const movie = movieWatchedArray[movieIndex];
+    if (movie.favorited == true) {
+      favoriteButton.style.backgroundColor = 'rgb(172, 5, 255)'; // Purple color for watched movie
+    } else {
+      favoriteButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color for unwatched movie
+    }
+  } else {
+    favoriteButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color if movie is not found
+  }
 }
 
 fetch(url)

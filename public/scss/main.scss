@@ -87,11 +87,11 @@ header {
     }
   }
   
-  .favourites {
+  .favoriteGrid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 1rem;
-    .favourite {
+    .fav {
       &.placeholder {
         background-color: #ccc;
         width: 100%; // change to 100% to span entire grid cell
@@ -143,6 +143,10 @@ header {
     }
 
     #watched {
+      background-color: rgb(38, 38, 38);
+    }    
+
+    #favorite {
       background-color: rgb(38, 38, 38);
     }    
   }
