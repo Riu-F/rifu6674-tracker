@@ -1,5 +1,5 @@
-// NOTE ABOUT DOUBLE STORING THE DATA -- scope of this asignment. in long run backend database with API?. 
-// I needed my own database to store user generated data such as favorite
+// NOTE ABOUT DOUBLE STORING THE DATA -- scope of this assignment. in long run backend database with API?.
+// I needed my own database to store user-generated data such as favorites
 
 // Movie DATABASES
 const url = "https://raw.githubusercontent.com/prust/wikipedia-movie-data/master/movies-2020s.json";
@@ -7,63 +7,74 @@ const url = "https://raw.githubusercontent.com/prust/wikipedia-movie-data/master
 // Array to store movie names
 let movieNames = [];
 var moviesData; // Global variable to store movies data
+let movieWatchedArray = []; // Array to store watched movie data
 
-// Array to store watched movie data
-let movieWatchedArray = [];
-
-// Get the movie input element
-const movieInput = document.getElementById('film-name');
-
-// Get the popup poster element
-const popupPoster = document.getElementById('popupPoster');
-// Get the popup box elements
-const popupTitle = document.getElementById('popupTitle');
+// Getting elements
+const movieInput = document.getElementById('film-name'); // Get the movie input element
+const popupPoster = document.getElementById('popupPoster'); // Get the popup poster element
+const popupTitle = document.getElementById('popupTitle'); // Get the popup box elements
 const popupYear = document.getElementById('popupYear');
 const popupDescription = document.getElementById('popupDescription');
-
-// Get the movies container element
-const moviesContainer = document.getElementById('moviesContainer');
+const moviesContainer = document.getElementById('moviesContainer'); // Get the movies container element
+const watchedButton = document.getElementById('watched'); // Get the "watched" button element
 
 // Add event listener for Enter key press or form submission
 movieInput.addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
     event.preventDefault(); // Prevent form submission
-    //movieInput.value = ''; // Clear the input field
     const movieName = movieInput.value.trim(); // Get the trimmed movie name
-    //console.log(movieName); // Display the array in the console
 
     if (movieName !== '') {
-      // Match the entered movie name with the movies from the database
-      const matchedMovies = moviesData.filter(movie => movie.title.toLowerCase().includes(movieName.toLowerCase()));
+      // Check if the movie is already stored in movieData
+      const existingMovieIndex = findMovieIndex(movieName);
 
-      if (matchedMovies.length > 0) {
-        // Get the first matched movie
-        const movie = matchedMovies[0];
-        // Update the image, title, release year, and description
-        popupPoster.src = movie.thumbnail;
-        popupTitle.textContent = movie.title;
-        popupYear.textContent = movie.year;
-        popupDescription.textContent = movie.extract;
+      if (existingMovieIndex !== -1) {
+        console.log("already found!")
+        // Movie already exists in movieData, use the existing data
+        const existingMovie = movieWatchedArray[existingMovieIndex];
+        // Update the image, title, release year, and description with existing movie data
+        popupPoster.src = existingMovie.poster;
+        popupTitle.textContent = existingMovie.title;
+        popupYear.textContent = existingMovie.year;
+        popupDescription.textContent = existingMovie.description;
+      } else {
+        console.log("new movie")
+        // Movie not found in movieData, proceed with matching moviesData
+        const matchedMovies = moviesData.filter(movie => movie.title.toLowerCase().includes(movieName.toLowerCase()));
+
+        if (matchedMovies.length > 0) {
+          // Get the first matched movie
+          const movie = matchedMovies[0];
+          // Update the image, title, release year, and description
+          popupPoster.src = movie.thumbnail;
+          popupTitle.textContent = movie.title;
+          popupYear.textContent = movie.year;
+          popupDescription.textContent = movie.extract;
+        }
       }
     }
   }
 });
 
-// Get the "watched" button element
-const watchedButton = document.getElementById('watched');
-
-// Add event listener for the click event
+// Add event listener for the watched button click event
 watchedButton.addEventListener('click', function() {
-  // Call the function to store the movie data
-  storeMovieData();
+  storeMovieData(); // Call the function to store the movie data
 });
 
-function storeMovieData() {
+function storeMovieData() { // for this site, this could be in the search event listener. But i had planned to add a watchlater feild ect where users could pressed watched. 
   // Get the movie data
-  const movieTitle = popupTitle.textContent; // <- these might not be nessersary. can i just do... title: popupTitle.textContent
+  const movieTitle = popupTitle.textContent;
   const movieYear = popupYear.textContent;
   const movieDescription = popupDescription.textContent;
   const movieImage = popupPoster.src;
+
+  // Check if the movie already exists in movieWatchedArray
+  const existingMovieIndex = findMovieIndex(movieTitle.toLowerCase());
+  if (existingMovieIndex !== -1) {
+    // Movie already exists, do not add it again
+    console.log('Movie already exists:', movieTitle);
+    return;
+  }
 
   // Create an object with the movie data
   const movieData = {
@@ -71,7 +82,7 @@ function storeMovieData() {
     year: movieYear,
     description: movieDescription,
     poster: movieImage,
-    watched: false, // i need something to stop movies being entered twice
+    watched: true,
     favorited: false,
     id: generateUniqueID(),
     rating: 0,
@@ -80,19 +91,15 @@ function storeMovieData() {
 
   // Push the movie data object into the array
   movieWatchedArray.push(movieData);
-  
   console.log('Movie Data Array:', movieWatchedArray);
 
-  displayWatched() // refresh diplayed watched movies
+  displayWatched(); // function to refresh displayed watched movies
 }
 
+function displayWatched() {
+  moviesContainer.innerHTML = ''; // Clear existing movies container
 
-
-function displayWatched() { // display watched movies. function so it will only refresh when run...
-  // Clear the movies container
-  moviesContainer.innerHTML = '';
-
-  // Iterate over moviesData and create img elements for each movie
+  // Iterate over movieWatchedArray and create img elements for each movie
   movieWatchedArray.forEach((movie) => {
     const img = document.createElement('img');
     img.src = movie.poster;
@@ -107,6 +114,17 @@ function generateUniqueID() {
   return now.toISOString(); // Example format: "2023-05-12T14:36:30.000Z"
 }
 
+// Function to find if a movie has already been watched and thus exists in local array. Prevents double-ups.
+// Plus returns its index so i can display the user generated data
+function findMovieIndex(movieTitle) {
+  for (let i = 0; i < movieWatchedArray.length; i++) {
+    if (movieWatchedArray[i].title.toLowerCase() === movieTitle.toLowerCase()) {
+      return i; // Return the index of the matching object
+    }
+  }
+  return -1; // Return -1 if no match is found
+}
+
 fetch(url)
   .then((response) => {
     if (response.ok) {
@@ -118,7 +136,7 @@ fetch(url)
   .then((movies) => {
     moviesData = movies; // Store the movies data in the global variable
   })
-  
+
   .catch((error) => {
     console.log(error);
   });
