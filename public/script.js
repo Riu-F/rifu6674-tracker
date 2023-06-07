@@ -1,6 +1,3 @@
-// NOTE ABOUT DOUBLE STORING THE DATA -- scope of this assignment. in long run backend database with API?.
-// I needed my own database to store user-generated data such as favorites
-
 // Movie DATABASES
 const url = "https://raw.githubusercontent.com/prust/wikipedia-movie-data/master/movies-2020s.json";
 
@@ -26,19 +23,19 @@ movieInput.addEventListener('keypress', function(event) {
     event.preventDefault(); // Prevent form submission
     const movieName = movieInput.value.trim(); // Get the trimmed movie name
 
-    showPopup()
+    showPopup(); // Show the popup box
 
     if (movieName !== '') {
-      // Check if the movie is already stored in movieData
+      // Check if the movie is already stored in movieWatchedArray
       const existingMovieIndex = findMovieIndex(movieName);
 
-      updateWatchedButton(movieName) // check & change the background colour to indicate if watched already
-      updateFavoriteButton(movieName)
-      refreshReview(movieName); 
+      updateWatchedButton(movieName); // Check and change the background color of the "Watched" button to indicate if the movie has been watched
+      updateFavoriteButton(movieName); // Check and change the background color of the "Favorite" button to indicate if the movie has been favorited
+      refreshReview(movieName); // Refresh the displayed review for the movie
 
       if (existingMovieIndex !== -1) {
-        console.log("already found!")
-        // Movie already exists in movieData, use the existing data
+        console.log("Movie already found in movieWatchedArray");
+        // Movie already exists in movieWatchedArray, use the existing data
         const existingMovie = movieWatchedArray[existingMovieIndex];
         // Update the image, title, release year, and description with existing movie data
         popupPoster.src = existingMovie.poster;
@@ -46,14 +43,14 @@ movieInput.addEventListener('keypress', function(event) {
         popupYear.textContent = existingMovie.year;
         popupDescription.textContent = existingMovie.description;
       } else {
-        console.log("new movie")
-        // Movie not found in movieData, proceed with matching moviesData
+        console.log("New movie");
+        // Movie not found in movieWatchedArray, proceed with matching moviesData
         const matchedMovies = moviesData.filter(movie => movie.title.toLowerCase().includes(movieName.toLowerCase()));
 
         if (matchedMovies.length > 0) {
           // Get the first matched movie
           const movie = matchedMovies[0];
-          // Update the image, title, release year, and description
+          // Update the image, title, release year, and description with the matched movie data
           popupPoster.src = movie.thumbnail;
           popupTitle.textContent = movie.title;
           popupYear.textContent = movie.year;
@@ -68,23 +65,23 @@ const watchedButton = document.getElementById('watched'); // Get the "watched" b
 
 // Add event listener for the watched button click event
 watchedButton.addEventListener('click', function() {
-  const movieTitle = popupTitle.textContent;
-  const movieIndex = findMovieIndex(movieTitle); // when user presses "watched" button
+  const movieTitle = popupTitle.textContent; // Get the title of the movie from the popup
+  const movieIndex = findMovieIndex(movieTitle); // Find the index of the movie in movieWatchedArray
 
-  if (movieIndex !== -1) { // check if movie exists in my array
+  if (movieIndex !== -1) { // Check if the movie exists in the user's array
     const movie = movieWatchedArray[movieIndex];
-    if (movie.watched == true) { // if it does. they hit watch again, so change to havent watched
-      movie.watched = false 
-      updateWatchedButton(movieTitle) // checks & changes background "watched" button colour
+    if (movie.watched == true) { // If the movie has been watched and the button is clicked again, change it to "haven't watched"
+      movie.watched = false; 
+      updateWatchedButton(movieTitle); // Check and change the background color of the "watched" button
     } else {
-      movie.watched = true
-      updateWatchedButton(movieTitle) // checks & changes background "watched" button colour
+      movie.watched = true;
+      updateWatchedButton(movieTitle); // Check and change the background color of the "watched" button
     }
   } else {
-    storeMovieData(); // If movie not found in user database, call the function to store the movie data
-    updateWatchedButton(movieTitle) // checks & changes background "watched" button colour
+    storeMovieData(); // If the movie is not found in the user's database, call the function to store the movie data
+    updateWatchedButton(movieTitle); // Check and change the background color of the "watched" button
   }
-  displayWatched(); // refreshes homescream displayed movies
+  displayWatched(); // Refresh the displayed watched movies
 })
 
 const favoriteButton = document.getElementById('favorite'); // Get the "favorite" button element
@@ -92,32 +89,32 @@ const favoriteButton = document.getElementById('favorite'); // Get the "favorite
 // Event listener for the favorite button click event
 favoriteButton.addEventListener('click', function() {
   console.log("clicked");
-  const movieTitle = popupTitle.textContent;
-  const movieIndex = findMovieIndex(movieTitle);
-  if (movieIndex !== -1) { // check if movie exists in my array
+  const movieTitle = popupTitle.textContent; // Get the title of the movie from the popup
+  const movieIndex = findMovieIndex(movieTitle); // Find the index of the movie in movieWatchedArray
+  if (movieIndex !== -1) { // Check if the movie exists in the user's array
     const movie = movieWatchedArray[movieIndex];
-    if (movie.favorited === true) {
-      movie.favorited = false
-      updateFavoriteButton(movieTitle)
+    if (movie.favorited === true) { // If the movie is favorited and the button is clicked again, remove it from favorites
+      movie.favorited = false;
+      updateFavoriteButton(movieTitle);
     } else {
-      movie.favorited = true
-      updateFavoriteButton(movieTitle)
+      movie.favorited = true;
+      updateFavoriteButton(movieTitle);
     }
   } else {
-    storeMovieData();
-    updateFavoriteButton(movieTitle)
+    storeMovieData(); // If the movie is not found in the user's database, call the function to store the movie data
+    updateFavoriteButton(movieTitle);
   }
-  displayFavorites()
+  displayFavorites(); // Refresh the displayed favorite movies
 });
 
-function storeMovieData() { // for this site, this could be in the search event listener. But i had planned to add a watchlater feild ect where users could pressed watched. 
+function storeMovieData() { // This function is used to store the movie data in the user's array
   // Get the movie data
   const movieTitle = popupTitle.textContent;
   const movieYear = popupYear.textContent;
   const movieDescription = popupDescription.textContent;
   const movieImage = popupPoster.src;
 
-  // Should be redundant but just in case checks if the movie already exists in movieWatchedArray
+  // Check if the movie already exists in movieWatchedArray (redundant check, but added for safety)
   const existingMovieIndex = findMovieIndex(movieTitle.toLowerCase());
   if (existingMovieIndex !== -1) {
     // Movie already exists, do not add it again
@@ -142,7 +139,7 @@ function storeMovieData() { // for this site, this could be in the search event 
   movieWatchedArray.push(movieData);
   console.log('Movie Data Array:', movieWatchedArray);
 
-  displayWatched(); // function to refresh displayed watched movies
+  displayWatched(); // Refresh the displayed watched movies
 }
 
 function displayWatched() {
@@ -191,7 +188,8 @@ function findMovieIndex(movieTitle) {
   return -1; // Return -1 if no match is found
 }
 
-// changes colour of button to purple/grey depending on if watched. checks each time run. Needs to be called mutiple times, eg when searched/watched clicked... so needs to be its own function
+// Changes the color of the button to purple/grey depending on whether it has been watched. Checks each time it is run.
+// This function needs to be called multiple times, e.g., when searched/watched is clicked, so it needs to be its own function.
 function updateWatchedButton(movieTitle) {
   const movieIndex = findMovieIndex(movieTitle);
   if (movieIndex !== -1) {
