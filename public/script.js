@@ -9,16 +9,16 @@ let movieNames = [];
 var moviesData; // Global variable to store movies data
 let movieWatchedArray = []; // Array to store watched movie data
 
+// Colours
+var secondaryColour = "rgb(116, 116, 116)" // Grey
+var accentColour = "rgb(204, 121, 255)" // Purple
+
 // Getting elements
 const movieInput = document.getElementById('film-name'); // Get the movie input element
 const popupPoster = document.getElementById('popupPoster'); // Get the popup poster element
 const popupTitle = document.getElementById('popupTitle'); // Get the popup box elements
 const popupYear = document.getElementById('popupYear');
 const popupDescription = document.getElementById('popupDescription');
-const watchedButton = document.getElementById('watched'); // Get the "watched" button element
-
-const popupBox = document.getElementById('popupBox');
-const overlay = document.getElementById('overlay');
 
 // Add event listener for Enter key press or form submission
 movieInput.addEventListener('keypress', function(event) {
@@ -26,8 +26,7 @@ movieInput.addEventListener('keypress', function(event) {
     event.preventDefault(); // Prevent form submission
     const movieName = movieInput.value.trim(); // Get the trimmed movie name
 
-    //popupBox.style.display = 'block';
-    overlay.style.display = 'block';
+    showPopup()
 
     if (movieName !== '') {
       // Check if the movie is already stored in movieData
@@ -65,6 +64,8 @@ movieInput.addEventListener('keypress', function(event) {
   }
 });
 
+const watchedButton = document.getElementById('watched'); // Get the "watched" button element
+
 // Add event listener for the watched button click event
 watchedButton.addEventListener('click', function() {
   const movieTitle = popupTitle.textContent;
@@ -87,6 +88,8 @@ watchedButton.addEventListener('click', function() {
 })
 
 const favoriteButton = document.getElementById('favorite'); // Get the "favorite" button element
+
+// Event listener for the favorite button click event
 favoriteButton.addEventListener('click', function() {
   console.log("clicked");
   const movieTitle = popupTitle.textContent;
@@ -179,7 +182,6 @@ function generateUniqueID() {
 
 // Function to find if a movie has already been watched and thus exists in local array. Prevents double-ups.
 // Plus returns its index so i can display the user generated data
-// Plus changes watched button to purple if found
 function findMovieIndex(movieTitle) {
   for (let i = 0; i < movieWatchedArray.length; i++) {
     if (movieWatchedArray[i].title.toLowerCase() === movieTitle.toLowerCase()) {
@@ -195,12 +197,12 @@ function updateWatchedButton(movieTitle) {
   if (movieIndex !== -1) {
     const movie = movieWatchedArray[movieIndex];
     if (movie.watched == true) {
-      watchedButton.style.backgroundColor = 'rgb(172, 5, 255)'; // Purple color for watched movie
+      watchedButton.style.backgroundColor = accentColour; // Purple color for watched movie
     } else {
-      watchedButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color for unwatched movie
+      watchedButton.style.backgroundColor = secondaryColour; // Dark color for unwatched movie
     }
   } else {
-    watchedButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color if movie is not found
+    watchedButton.style.backgroundColor = secondaryColour; // Dark color if movie is not found
   }
 }
 
@@ -209,12 +211,12 @@ function updateFavoriteButton(movieTitle) {
   if (movieIndex !== -1) {
     const movie = movieWatchedArray[movieIndex];
     if (movie.favorited == true) {
-      favoriteButton.style.backgroundColor = 'rgb(172, 5, 255)'; // Purple color for watched movie
+      favoriteButton.style.backgroundColor = accentColour; // Purple color for watched movie
     } else {
-      favoriteButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color for unwatched movie
+      favoriteButton.style.backgroundColor = secondaryColour; // Dark color for unwatched movie
     }
   } else {
-    favoriteButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color if movie is not found
+    favoriteButton.style.backgroundColor = secondaryColour; // Dark color if movie is not found
   }
 }
 
@@ -223,6 +225,9 @@ const saveButton = document.getElementById('saveButton'); // Get the "Save" butt
 saveButton.addEventListener('click', saveReview);
 
 function saveReview() {
+  // hides the popup and background overlay
+  hidePopup();
+
   const myReview = document.getElementById('myReview'); // Get the <p> element to display the review
   const popupInput = document.getElementById('reviewInput'); // Get the popup input element
   const movieTitle = popupTitle.textContent; // Get the movie title
@@ -261,6 +266,21 @@ function refreshReview(movieTitle) {
     // Clear the <p> element if the movie is not found
     myReview.textContent = '';
   }
+}
+
+const popupBox = document.getElementById('popupBox');
+const overlay = document.getElementById('overlay');
+
+// Function to show the popup
+function showPopup() {
+  popupBox.style.display = "flex";
+  overlay.style.display = "block";
+}
+
+// Function to hide the popup
+function hidePopup() {
+  popupBox.style.display = "none";
+  overlay.style.display = "none";
 }
 
 fetch(url)

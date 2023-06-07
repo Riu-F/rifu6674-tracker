@@ -1,18 +1,25 @@
 body {
-    margin: 0 10rem;
-  }
+  margin: 0;
+  padding: 0;
+  background-color: #F5F5F7;
+  font-family: 'Inter', sans-serif;
+}
   
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #333;
-    color: #fff;
+.full-width-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10rem;
+  padding-right: 10rem;
+  background-color: #1D1D1F;
+  color: #F5F5F7;
     
     .logo {
+      font-family: 'Inter', sans-serif;
       font-size: 2em;
-      font-weight: bold;
+      font-weight: bolder;
+      margin-block-start: 0em;
+      margin-block-end: 0em;
     }
     
     nav ul {
@@ -35,12 +42,27 @@ header {
         }
       }
     }
+}
+
+main {
+  margin: 10rem;
+  margin-top: 0px;
+
+  h1 {
+    padding-top: 1.5rem;
+    font-size: 1.7em;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 1em;
+    font-weight: bold;
   }
   
   form {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    padding-bottom: 1.5rem;
     
     label {
       font-size: 1.2em;
@@ -48,9 +70,11 @@ header {
     }
     
     input[type="text"] {
+      font-weight: bold;
+      background-color: #D9D9D9;
       padding: 10px;
       font-size: 1.2em;
-      border: 2px solid #ccc;
+      border: 0px solid #cccccc;
       border-radius: 4px;
       flex: 1;
       
@@ -60,7 +84,7 @@ header {
       }
       
       &::placeholder {
-        color: #999;
+        color: #747474;
       }
     }
     
@@ -80,70 +104,88 @@ header {
         }
         
         label {
-          font-size: 1.2em;
+          text-align: right;
+          font-size: 1em;
           margin-top: 5px;
         }
       }
     }
   }
-  
-  .favoriteGrid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+
+  #moviesContainerFavorites {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
 
     // Style the movie images within the grid
     img {
-      width: 100%;
-      height: 0;
+      width: auto;
+      min-width: 100px;
+      height: auto;
       padding-bottom: calc(2 / 3 * 100%); // Set the aspect ratio to 2:3
       object-fit: cover; // Cut off any excess and maintain aspect ratio
     }
   }
 
-  .recently {
+  #moviesContainer {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
   
     // Style the movie images within the grid
     img {
+      display: block;
       width: 100%;
-      height: 0;
-      padding-bottom: calc(2 / 3 * 100%); // Set the aspect ratio to 2:3
-      object-fit: cover; // Cut off any excess and maintain aspect ratio
+      height: 100%;
+      object-fit: contain; // Cut off any excess and maintain aspect ratio
     }
   }
+}
 
-  #overlay {
+#overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 0;
     background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
     backdrop-filter: blur(5px); /* Adjust the blur amount as needed */
     display: none;
-  }
+}
 
-  #popupBox {
-    //display: none;
+#popupBox {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%; /* Set the width to occupy 1/3 of the page horizontally */
-    height: 400px; /* Set the desired height */
+    width: 60%; /* Set the width to occupy ??% of the page horizontally */
+    height: auto; /* Set the desired height */
+    max-height: 90%;
+    overflow: auto;
 
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: flex-start;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
+
     img {
       margin-right: 20px;
+    }
+
+    h2 {
+      font-weight: bold;
+      font-size: 2rem;
+    }
+
+    #popupYear {
+      padding-bottom: 1rem;
+    }
+
+    .buttons {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
     }
 
     .content {
@@ -152,6 +194,7 @@ header {
 
     .save {
       text-align: right;
+      margin-top: 1rem;
     }
 
     #watched {
@@ -161,5 +204,29 @@ header {
     #favorite {
       background-color: rgb(38, 38, 38);
     }    
-  }
-  
+
+    input[type="text"] {
+      background-color: #D9D9D9;
+      padding: 10px;
+      padding-bottom: 30px;
+      padding-right: 55%;
+      border: 0px solid #cccccc;
+      border-radius: 4px;
+      flex: 1;
+      
+      &:focus {
+        border-color: #333;
+        outline: none;
+      }
+      
+      &::placeholder {
+        color: #747474;
+      }
+    }
+}
+
+#moviesContainer.favoriteGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}

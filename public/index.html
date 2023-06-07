@@ -5,12 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Tracking Website</title>
+    <link rel="stylesheet" href="scss/reset.css" />
     <link rel="stylesheet" href="scss/main.scss" />
+
+    <!-- Import fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    
 </head>
 
 <body>
 
-    <header>
+  <header class="full-width-header">
         <div class="logo">
           <h2>Flixr</h2>
         </div>
@@ -24,8 +31,8 @@
 
       <main>
         <h1>Log your movies</h1>
-        <form>
-            <label for="film-name">Name of film:</label>
+        <form id="searchForm">
+            <label for="film-name"></label>
             <input type="text" id="film-name" name="film-name" placeholder="Enter film name...">
             <div class="counters">
               <div>
@@ -40,17 +47,27 @@
           </form>
 
           <section>
-            <h2>Favourites</h2>
+            <h2>FAVOURITE FILMS</h2>
             <hr>
             <div id="moviesContainerFavorites">
+              <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+              <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+              <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+              <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+              <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
               <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
             </div>
           </section>
 
         <section>
-          <h2>Recently Watched</h2>
+          <h2>RECENTLY WATCHED</h2>
           <hr>
           <div id="moviesContainer">
+            <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+            <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+            <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+            <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
+            <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
             <img id="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALcAAAETCAMAAABDSmfhAAAAIVBMVEX39/fd3d3j4+Pg4ODv7+/p6enf39/z8/Pw8PD19fXr6+snd1ntAAAA5ElEQVR4nO3YQW7DIBBAUYPB4Nz/wAUradKunEXqjvTewmL5NUIj5GUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAPqH8dnXQSTn9lK8OOimnbX3aAnW/3oyi+8N0/63Z3e/nHqq71/vIS6o9UPfc4HPifW7vQN2H9jgG6972cV7jdad1nPctXvcRvAfsPooj7cFvde6UgN2plhqyO9QefH1+jwd4lG44q5XnN5Jc69KWmsOF17KP5tyu7njTGPcy/wDVq0PelPOt3cY9iTZvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6HLwYqAsh3u3pnAAAAAElFTkSuQmCC" alt="Movie Poster">
           </div>
         </section>
@@ -69,12 +86,12 @@
         <div class="buttons">
           <button id="watched">watched</button>
           <button id="favorite">favorite</button>
-          <button id="watch-later">watch-later</button>
+          <!-- <button id="watch-later">watch-later</button> -->
         </div>
         <p id="myReview"></p>
         <input type="text" id="reviewInput" placeholder="Write a review...">
         <div class="save">
-          <button id="saveButton">Save</button>
+          <button id="saveButton">Save / Close</button>
         </div>
       </div>
     </div>
