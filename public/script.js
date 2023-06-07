@@ -15,8 +15,10 @@ const popupPoster = document.getElementById('popupPoster'); // Get the popup pos
 const popupTitle = document.getElementById('popupTitle'); // Get the popup box elements
 const popupYear = document.getElementById('popupYear');
 const popupDescription = document.getElementById('popupDescription');
-const moviesContainer = document.getElementById('moviesContainer'); // Get the movies container element
 const watchedButton = document.getElementById('watched'); // Get the "watched" button element
+
+const popupBox = document.getElementById('popupBox');
+const overlay = document.getElementById('overlay');
 
 // Add event listener for Enter key press or form submission
 movieInput.addEventListener('keypress', function(event) {
@@ -24,12 +26,16 @@ movieInput.addEventListener('keypress', function(event) {
     event.preventDefault(); // Prevent form submission
     const movieName = movieInput.value.trim(); // Get the trimmed movie name
 
+    //popupBox.style.display = 'block';
+    overlay.style.display = 'block';
+
     if (movieName !== '') {
       // Check if the movie is already stored in movieData
       const existingMovieIndex = findMovieIndex(movieName);
 
       updateWatchedButton(movieName) // check & change the background colour to indicate if watched already
       updateFavoriteButton(movieName)
+      refreshReview(movieName); 
 
       if (existingMovieIndex !== -1) {
         console.log("already found!")
@@ -63,6 +69,7 @@ movieInput.addEventListener('keypress', function(event) {
 watchedButton.addEventListener('click', function() {
   const movieTitle = popupTitle.textContent;
   const movieIndex = findMovieIndex(movieTitle); // when user presses "watched" button
+
   if (movieIndex !== -1) { // check if movie exists in my array
     const movie = movieWatchedArray[movieIndex];
     if (movie.watched == true) { // if it does. they hit watch again, so change to havent watched
@@ -76,6 +83,7 @@ watchedButton.addEventListener('click', function() {
     storeMovieData(); // If movie not found in user database, call the function to store the movie data
     updateWatchedButton(movieTitle) // checks & changes background "watched" button colour
   }
+  displayWatched(); // refreshes homescream displayed movies
 })
 
 const favoriteButton = document.getElementById('favorite'); // Get the "favorite" button element
@@ -96,6 +104,7 @@ favoriteButton.addEventListener('click', function() {
     storeMovieData();
     updateFavoriteButton(movieTitle)
   }
+  displayFavorites()
 });
 
 function storeMovieData() { // for this site, this could be in the search event listener. But i had planned to add a watchlater feild ect where users could pressed watched. 
@@ -134,14 +143,31 @@ function storeMovieData() { // for this site, this could be in the search event 
 }
 
 function displayWatched() {
+  const moviesContainer = document.getElementById('moviesContainer'); // Get the movies container element
   moviesContainer.innerHTML = ''; // Clear existing movies container
 
-  // Iterate over movieWatchedArray and create img elements for each movie. ISSUE: displays movies with "watched: false" 
+  // Iterate over movieWatchedArray and create img elements for each watched movie
   movieWatchedArray.forEach((movie) => {
-    const img = document.createElement('img');
-    img.src = movie.poster;
-    img.alt = movie.title;
-    moviesContainer.appendChild(img);
+    if (movie.watched) { // Check if the movie is watched
+      const img = document.createElement('img');
+      img.src = movie.poster;
+      img.alt = movie.title;
+      moviesContainer.appendChild(img);
+    }
+  });
+}
+
+function displayFavorites() {
+  const favoritesContainer = document.getElementById('moviesContainerFavorites');
+  favoritesContainer.innerHTML = ''; // Clear existing favorites container
+
+  movieWatchedArray.forEach((movie) => {
+    if (movie.favorited) { // Check if the movie is favorited
+      const img = document.createElement('img');
+      img.src = movie.poster;
+      img.alt = movie.title;
+      favoritesContainer.appendChild(img);
+    }
   });
 }
 
@@ -189,6 +215,51 @@ function updateFavoriteButton(movieTitle) {
     }
   } else {
     favoriteButton.style.backgroundColor = 'rgb(38, 38, 38)'; // Dark color if movie is not found
+  }
+}
+
+const saveButton = document.getElementById('saveButton'); // Get the "Save" button element
+// Attach the event listener to the saveButton
+saveButton.addEventListener('click', saveReview);
+
+function saveReview() {
+  const myReview = document.getElementById('myReview'); // Get the <p> element to display the review
+  const popupInput = document.getElementById('reviewInput'); // Get the popup input element
+  const movieTitle = popupTitle.textContent; // Get the movie title
+  const movieIndex = findMovieIndex(movieTitle); // Find the index of the movie in movieWatchedArray
+  
+  if (movieIndex !== -1) {
+    const movie = movieWatchedArray[movieIndex];
+    const review = popupInput.value.trim(); // Get the review text from the input field
+    movie.reviews = review; // Update the reviews property with the review text
+    
+    // Clear the input field
+    popupInput.value = '';
+    
+    // Display the review in the <p> element
+    myReview.textContent = "Your previous review: " + review;
+    
+    // Print the updated movieWatchedArray for testing
+    console.log('Updated movieWatchedArray:', movieWatchedArray);
+
+    //popupBox.style.display = 'none';
+    //overlay.style.display = 'none';  
+  }
+}
+
+function refreshReview(movieTitle) {
+  const myReview = document.getElementById('myReview'); // Get the <p> element to display the review
+  const movieIndex = findMovieIndex(movieTitle); // Find the index of the movie in movieWatchedArray
+  
+  if (movieIndex !== -1) {
+    const movie = movieWatchedArray[movieIndex];
+    const review = movie.reviews; // Get the review from the movie object
+    
+    // Display the review in the <p> element
+    myReview.textContent = "Your previous review: " + review;
+  } else {
+    // Clear the <p> element if the movie is not found
+    myReview.textContent = '';
   }
 }
 
